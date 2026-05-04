@@ -14,10 +14,15 @@ export function AdminHeader() {
     <header className="sticky top-0 z-40 h-16 border-b bg-card flex items-center px-6 gap-4">
       {/* Mobile menu */}
       <Sheet>
-        <SheetTrigger>
-          <Button variant="ghost" size="icon" className="lg:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+        <SheetTrigger
+          render={
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-md h-9 w-9 hover:bg-accent lg:hidden"
+            />
+          }
+        >
+          <Menu className="h-5 w-5" />
         </SheetTrigger>
         <SheetContent side="left" className="w-[250px] p-0">
           <div className="flex h-16 items-center gap-2 px-6 border-b font-bold text-lg">
