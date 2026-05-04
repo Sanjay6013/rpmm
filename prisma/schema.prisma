@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum GalleryCategory {
+  EVENTS
+  CAMPUS
+  SPORTS
+  ACADEMICS
+  CULTURAL
+  GENERAL
+}
+
+enum AnnouncementType {
+  INFO
+  WARNING
+  URGENT
+  ADMISSION
+}
+
+enum InquiryStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+// ─── Auth Models (NextAuth) ──────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          Role      @default(EDITOR)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Site Settings ───────────────────────────────────────────────────
+
+model SiteSettings {
+  id            String   @id @default("default")
+  schoolName    String   @default("RPMM")
+  schoolFullName String  @default("RPMM")
+  tagline       String   @default("Excellence in Education")
+  description   String?
+  address       String?
+  phone         String?
+  email         String?
+  officeHours   String?
+  logoUrl       String?
+  faviconUrl    String?
+  facebookUrl   String?
+  twitterUrl    String?
+  instagramUrl  String?
+  youtubeUrl    String?
+  mapEmbedUrl   String?
+  seoTitle      String   @default("RPMM - Excellence in Education")
+  seoDescription String?
+  galleryTitle  String   @default("Photo Gallery")
+  gallerySubtitle String @default("Explore our school life through photos")
+  galleryEmptyMessage String @default("No albums available yet.")
+  eventsTitle   String   @default("Events")
+  eventsSubtitle String  @default("Stay updated with school events")
+  upcomingEventsLabel String @default("Upcoming Events")
+  pastEventsLabel String  @default("Past Events")
+  eventsEmptyMessage String @default("No events available yet.")
+  backToEventsLabel String @default("Back to Events")
+  newsTitle     String   @default("News & Updates")
+  newsSubtitle  String   @default("Latest news from RPMM")
+  newsEmptyMessage String @default("No news articles available yet.")
+  backToNewsLabel String  @default("Back to News")
+  backToGalleryLabel String @default("Back to Gallery")
+  contactSubtitle String  @default("We'd love to hear from you")
+  getInTouchHeading String @default("Get in Touch")
+  quickLinksHeading String @default("Quick Links")
+  contactHeading String  @default("Contact Us")
+  mapTitle      String   @default("School Location")
+  goHomeLabel   String   @default("Go Home")
+  updatedAt     DateTime @updatedAt
+}
+
+// ─── Home Page Content ───────────────────────────────────────────────
+
+model HomeContent {
+  id              String   @id @default("default")
+  stats           Json     @default("[]")
+  highlights      Json     @default("[]")
+  highlightsTitle String   @default("Why Choose RPMM?")
+  highlightsSubtitle String @default("Discover what makes us exceptional")
+  upcomingEventsSubtitle String @default("Stay updated with our latest events")
+  latestNewsSubtitle String @default("News and updates from RPMM")
+  ctaTitle        String   @default("Begin Your Journey at RPMM")
+  ctaDescription  String   @default("Join our community of learners and achievers.")
+  ctaButtonText   String   @default("Apply Now")
+  ctaButtonUrl    String   @default("/contact")
+  updatedAt       DateTime @updatedAt
+}
+
+model HeroSlide {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  imageUrl    String
+  ctaText     String?
+  ctaUrl      String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── About Page Content ──────────────────────────────────────────────
+
+model AboutContent {
+  id              String   @id @default("default")
+  history         String?
+  historyLabel    String   @default("Our History")
+  mission         String?
+  missionLabel    String   @default("Our Mission")
+  vision          String?
+  visionLabel     String   @default("Our Vision")
+  principalName   String?
+  principalMessage String?
+  principalPhoto  String?
+  principalHeading String  @default("Principal's Message")
+  principalTitle  String   @default("Principal")
+  infrastructure  Json     @default("[]")
+  infrastructureTitle String @default("Our Infrastructure")
+  values          Json     @default("[]")
+  valuesTitle     String   @default("Our Values")
+  updatedAt       DateTime @updatedAt
+}
+
+// ─── Gallery ─────────────────────────────────────────────────────────
+
+model GalleryAlbum {
+  id          String           @id @default(cuid())
+  title       String
+  slug        String           @unique
+  description String?
+  category    GalleryCategory  @default(GENERAL)
+  isPublished Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  images      GalleryImage[]
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  caption   String?
+  sortOrder Int      @default(0)
+  albumId   String
+  createdAt DateTime @default(now())
+
+  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  @@index([albumId])
+}
+
+// ─── Events ──────────────────────────────────────────────────────────
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  startDate   DateTime
+  endDate     DateTime?
+  location    String?
+  excerpt     String?
+  content     String?
+  coverImage  String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished])
+  @@index([startDate])
+}
+
+// ─── News ────────────────────────────────────────────────────────────
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  author      String?
+  publishedAt DateTime @default(now())
+  excerpt     String?
+  content     String?
+  coverImage  String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished])
+  @@index([publishedAt])
+}
+
+// ─── Announcements ───────────────────────────────────────────────────
+
+model Announcement {
+  id        String           @id @default(cuid())
+  title     String
+  content   String
+  type      AnnouncementType @default(INFO)
+  isActive  Boolean          @default(true)
+  startDate DateTime         @default(now())
+  endDate   DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([isActive])
+}
+
+// ─── Contact Inquiries ───────────────────────────────────────────────
+
+model ContactInquiry {
+  id        String         @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    InquiryStatus  @default(NEW)
+  notes     String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ─── Contact Form Content ────────────────────────────────────────────
+
+model ContactFormContent {
+  id                 String   @id @default("default")
+  heading            String   @default("Send us a Message")
+  subtitle           String   @default("Fill out the form below and we'll get back to you.")
+  nameLabel          String   @default("Name")
+  emailLabel         String   @default("Email")
+  phoneLabel         String   @default("Phone")
+  subjectLabel       String   @default("Subject")
+  messageLabel       String   @default("Message")
+  namePlaceholder    String   @default("Your name")
+  emailPlaceholder   String   @default("your@email.com")
+  phonePlaceholder   String   @default("+91 12345 67890")
+  subjectPlaceholder String   @default("Subject")
+  messagePlaceholder String   @default("Your message...")
+  submitButtonText   String   @default("Send Message")
+  sendingButtonText  String   @default("Sending...")
+  updatedAt          DateTime @updatedAt
+}
