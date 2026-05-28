@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { getImageUrl } from "@/lib/blob-url";
 import { formatDate } from "@/lib/utils";
 
 export default async function NewsPage() {
@@ -33,7 +34,7 @@ export default async function NewsPage() {
               >
                 {item.coverImage && (
                   <div className="relative h-48 gradient-top-bar">
-                    <Image src={item.coverImage} alt={item.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                    <Image src={getImageUrl(item.coverImage)} alt={item.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                   </div>
                 )}
                 <div className="p-4">

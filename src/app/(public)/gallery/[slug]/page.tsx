@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import prisma from "@/lib/prisma";
+import { getImageUrl } from "@/lib/blob-url";
 
 export default async function AlbumDetailPage({
   params,
@@ -43,7 +44,7 @@ export default async function AlbumDetailPage({
           {album.images.map((image) => (
             <div key={image.id} className="relative aspect-[4/3] rounded-lg overflow-hidden group">
               <Image
-                src={image.url}
+                src={getImageUrl(image.url)}
                 alt={image.caption ?? album.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"

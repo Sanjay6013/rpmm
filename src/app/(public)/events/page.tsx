@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin } from "lucide-react";
+import { getImageUrl } from "@/lib/blob-url";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
@@ -40,7 +41,7 @@ export default async function EventsPage() {
                 >
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                      <Image src={getImageUrl(event.coverImage)} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">
@@ -78,7 +79,7 @@ export default async function EventsPage() {
                 >
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                      <Image src={getImageUrl(event.coverImage)} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

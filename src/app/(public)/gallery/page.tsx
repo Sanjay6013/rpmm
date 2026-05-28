@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
+import { getImageUrl } from "@/lib/blob-url";
 import { GALLERY_CATEGORIES } from "@/lib/constants";
 
 export default async function GalleryPage() {
@@ -38,7 +39,7 @@ export default async function GalleryPage() {
                 {album.images[0] && (
                   <div className="relative h-56">
                     <Image
-                      src={(album.images as { url: string }[] & { id: string }[])[0]?.url ?? "/images/placeholder.jpg"}
+                      src={getImageUrl((album.images as { url: string }[] & { id: string }[])[0]?.url ?? "/images/placeholder.jpg")}
                       alt={album.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"

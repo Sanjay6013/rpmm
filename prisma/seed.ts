@@ -143,7 +143,7 @@ async function main() {
     {
       title: "Annual Sports Day",
       subtitle: "Celebrating Sportsmanship and Team Spirit",
-      imageUrl: "https://images.unsplash.com/photo-1461896836934-bd45ba7be637?w=1600&h=600&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=1600&h=600&fit=crop",
       ctaText: "View Events",
       ctaUrl: "/events",
       sortOrder: 2,
@@ -269,7 +269,7 @@ async function main() {
       excerpt: "RPMM hosts the annual inter-school sports tournament with participation from 15 schools.",
       content:
         "<p>Our annual inter-school sports tournament brings together athletes from across the region for a week of competition and camaraderie.</p><p>Events include track and field, basketball, football, cricket, and more.</p>",
-      coverImage: "https://images.unsplash.com/photo-1461896836934-bd45ba7be637?w=800&h=400&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=800&h=400&fit=crop",
       isPublished: true,
     },
     {

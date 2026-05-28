@@ -1,5 +1,6 @@
 import Image from "next/image";
 import prisma from "@/lib/prisma";
+import { getImageUrl } from "@/lib/blob-url";
 
 export default async function AboutPage() {
   const [about, settings] = await Promise.all([
@@ -74,7 +75,7 @@ export default async function AboutPage() {
                 {about?.principalPhoto && (
                   <div className="relative w-48 h-48 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-primary/20">
                     <Image
-                      src={about.principalPhoto}
+                      src={getImageUrl(about.principalPhoto)}
                       alt={about.principalName}
                       fill
                       sizes="192px"
@@ -107,7 +108,7 @@ export default async function AboutPage() {
                 <div key={i} className="gradient-border overflow-hidden bg-card rounded-lg gradient-card-hover">
                   {item.imageUrl && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={item.imageUrl} alt={item.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+                      <Image src={getImageUrl(item.imageUrl)} alt={item.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

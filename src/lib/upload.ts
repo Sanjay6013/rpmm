@@ -9,7 +9,7 @@ export async function saveFile(
   const filename = `${category}/${randomUUID()}${ext}`;
 
   const blob = await put(filename, file, {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
   });
 

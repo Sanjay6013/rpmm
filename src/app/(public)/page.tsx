@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/blob-url";
 import { GraduationCap, BookOpen, Trophy, Palette, Cpu, ArrowRight, TrendingUp, Users, Award } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
@@ -57,7 +58,7 @@ export default async function HomePage() {
       {heroSlides.length > 0 && heroSlides[0].imageUrl && (
         <section className="relative h-[500px] md:h-[600px] overflow-hidden">
           <Image
-            src={heroSlides[0].imageUrl}
+            src={getImageUrl(heroSlides[0].imageUrl)}
             alt={heroSlides[0].title}
             fill
             sizes="100vw"
@@ -158,7 +159,7 @@ export default async function HomePage() {
                 <div key={event.id} className="gradient-border gradient-card-hover overflow-hidden rounded-lg bg-card">
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                      <Image src={getImageUrl(event.coverImage)} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">
@@ -202,7 +203,7 @@ export default async function HomePage() {
                 <div key={item.id} className="gradient-border gradient-card-hover overflow-hidden rounded-lg bg-card">
                   {item.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={item.coverImage} alt={item.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
+                      <Image src={getImageUrl(item.coverImage)} alt={item.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

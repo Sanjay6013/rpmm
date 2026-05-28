@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getImageUrl } from "@/lib/blob-url";
 import { ArrowLeft, Calendar, MapPin } from "lucide-react";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
@@ -31,7 +32,7 @@ export default async function EventDetailPage({
 
         {event.coverImage && (
           <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden mb-8">
-            <Image src={event.coverImage} alt={event.title} fill sizes="100vw" className="object-cover" />
+            <Image src={getImageUrl(event.coverImage)} alt={event.title} fill sizes="100vw" className="object-cover" />
           </div>
         )}
 

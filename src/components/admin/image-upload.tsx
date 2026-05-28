@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { getImageUrl } from "@/lib/blob-url";
 
 interface ImageUploadProps {
   value?: string;
@@ -48,7 +49,7 @@ export function ImageUpload({ value, onChange, category = "general" }: ImageUplo
     <div className="space-y-2">
       {value && value.trim() ? (
         <div className="relative w-full h-48 rounded-lg overflow-hidden border">
-          <Image src={value} alt="Uploaded image" fill sizes="100vw" className="object-cover" />
+          <Image src={getImageUrl(value)} alt="Uploaded image" fill sizes="100vw" className="object-cover" />
           <button
             onClick={handleRemove}
             className="absolute top-2 right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/80"
