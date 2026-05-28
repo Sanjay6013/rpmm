@@ -41,6 +41,7 @@ export default async function GalleryPage() {
                       src={(album.images as { url: string }[] & { id: string }[])[0]?.url ?? "/images/placeholder.jpg"}
                       alt={album.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-2 right-2 flex gap-2">

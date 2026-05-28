@@ -31,7 +31,7 @@ export default async function NewsDetailPage({
 
         {news.coverImage && (
           <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden mb-8">
-            <Image src={news.coverImage} alt={news.title} fill className="object-cover" />
+            <Image src={news.coverImage} alt={news.title} fill sizes="100vw" className="object-cover" />
           </div>
         )}
 

@@ -77,6 +77,7 @@ export default async function AboutPage() {
                       src={about.principalPhoto}
                       alt={about.principalName}
                       fill
+                      sizes="192px"
                       className="object-cover"
                     />
                   </div>
@@ -106,7 +107,7 @@ export default async function AboutPage() {
                 <div key={i} className="gradient-border overflow-hidden bg-card rounded-lg gradient-card-hover">
                   {item.imageUrl && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
+                      <Image src={item.imageUrl} alt={item.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

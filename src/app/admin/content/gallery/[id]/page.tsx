@@ -169,7 +169,7 @@ export default function AlbumDetailPage({ params }: { params: Promise<{ id: stri
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {album.images.filter((img) => img.url).map((img) => (
                 <div key={img.id} className="relative group rounded-lg overflow-hidden border aspect-[4/3]">
-                  <Image src={img.url} alt={img.caption ?? ""} fill className="object-cover" />
+                  <Image src={img.url} alt={img.caption ?? ""} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Button variant="destructive" size="sm" onClick={() => handleDeleteImage(img.id)}>
                       <Trash2 className="h-4 w-4" />

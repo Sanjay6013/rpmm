@@ -40,7 +40,7 @@ export default async function EventsPage() {
                 >
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill className="object-cover" />
+                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">
@@ -78,7 +78,7 @@ export default async function EventsPage() {
                 >
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill className="object-cover" />
+                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

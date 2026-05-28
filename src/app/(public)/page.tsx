@@ -60,6 +60,7 @@ export default async function HomePage() {
             src={heroSlides[0].imageUrl}
             alt={heroSlides[0].title}
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -157,7 +158,7 @@ export default async function HomePage() {
                 <div key={event.id} className="gradient-border gradient-card-hover overflow-hidden rounded-lg bg-card">
                   {event.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={event.coverImage} alt={event.title} fill className="object-cover" />
+                      <Image src={event.coverImage} alt={event.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">
@@ -201,7 +202,7 @@ export default async function HomePage() {
                 <div key={item.id} className="gradient-border gradient-card-hover overflow-hidden rounded-lg bg-card">
                   {item.coverImage && (
                     <div className="relative h-48 gradient-top-bar">
-                      <Image src={item.coverImage} alt={item.title} fill className="object-cover" />
+                      <Image src={item.coverImage} alt={item.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
                     </div>
                   )}
                   <div className="p-4">

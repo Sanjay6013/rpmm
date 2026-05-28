@@ -125,7 +125,7 @@ async function main() {
     {
       title: "Welcome to RPMM",
       subtitle: "Where Excellence Meets Opportunity",
-      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&h=600&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&h=600&fit=crop",
       ctaText: "Explore",
       ctaUrl: "/about",
       sortOrder: 0,
@@ -233,7 +233,7 @@ async function main() {
     const images =
       album.slug === "annual-day-celebrations"
         ? [
-            { url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop", caption: "Students performing on stage", sortOrder: 0, albumId: created.id },
+            { url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop", caption: "Students performing on stage", sortOrder: 0, albumId: created.id },
             { url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop", caption: "Audience enjoying the show", sortOrder: 1, albumId: created.id },
             { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop", caption: "Award ceremony", sortOrder: 2, albumId: created.id },
           ]

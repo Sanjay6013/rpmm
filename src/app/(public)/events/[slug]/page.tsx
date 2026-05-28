@@ -31,7 +31,7 @@ export default async function EventDetailPage({
 
         {event.coverImage && (
           <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden mb-8">
-            <Image src={event.coverImage} alt={event.title} fill className="object-cover" />
+            <Image src={event.coverImage} alt={event.title} fill sizes="100vw" className="object-cover" />
           </div>
         )}
 

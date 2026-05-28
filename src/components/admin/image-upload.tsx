@@ -48,7 +48,7 @@ export function ImageUpload({ value, onChange, category = "general" }: ImageUplo
     <div className="space-y-2">
       {value && value.trim() ? (
         <div className="relative w-full h-48 rounded-lg overflow-hidden border">
-          <Image src={value} alt="Uploaded image" fill className="object-cover" />
+          <Image src={value} alt="Uploaded image" fill sizes="100vw" className="object-cover" />
           <button
             onClick={handleRemove}
             className="absolute top-2 right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/80"

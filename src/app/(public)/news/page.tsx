@@ -33,7 +33,7 @@ export default async function NewsPage() {
               >
                 {item.coverImage && (
                   <div className="relative h-48 gradient-top-bar">
-                    <Image src={item.coverImage} alt={item.title} fill className="object-cover" />
+                    <Image src={item.coverImage} alt={item.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                   </div>
                 )}
                 <div className="p-4">

@@ -82,7 +82,7 @@ export default function HomeEditor({ }: { }) {
     try {
       const result = await createHeroSlide({
         title: "New Slide",
-        imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&h=600&fit=crop",
+        imageUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&h=600&fit=crop",
         sortOrder: heroSlides.length,
         isActive: true,
       });
