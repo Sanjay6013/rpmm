@@ -1,35 +1,28 @@
-import { writeFile, unlink, mkdir } from "fs/promises";
-import path from "path";
+import { put, del } from "@vercel/blob";
 import { randomUUID } from "crypto";
-
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 export async function saveFile(
   file: File,
   category: string = "general"
 ): Promise<{ url: string; filename: string }> {
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  const ext = file.name.includes(".") ? "." + file.name.split(".").pop() : ".jpg";
+  const filename = `${category}/${randomUUID()}${ext}`;
 
-  const ext = path.extname(file.name) || ".jpg";
-  const filename = `${randomUUID()}${ext}`;
-  const dir = path.join(UPLOAD_DIR, category);
-
-  await mkdir(dir, { recursive: true });
-  const filepath = path.join(dir, filename);
-  await writeFile(filepath, buffer);
+  const blob = await put(filename, file, {
+    access: "public",
+    addRandomSuffix: false,
+  });
 
   return {
-    url: `/uploads/${category}/${filename}`,
+    url: blob.url,
     filename,
   };
 }
 
 export async function deleteFile(url: string): Promise<void> {
   try {
-    const filepath = path.join(process.cwd(), "public", url);
-    await unlink(filepath);
+    await del(url);
   } catch {
-    // File might not exist, ignore
+    // Blob might not exist, ignore
   }
 }
