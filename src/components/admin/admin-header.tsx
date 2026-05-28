@@ -1,26 +1,23 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { LogOut, Menu, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { AdminSidebar } from "./admin-sidebar";
+import { AdminSidebarNav } from "./admin-sidebar";
 
 export function AdminHeader() {
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-40 h-16 border-b bg-card flex items-center px-6 gap-4">
       {/* Mobile menu */}
       <Sheet>
         <SheetTrigger
-          render={
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md h-9 w-9 hover:bg-accent lg:hidden"
-            />
-          }
+          className="inline-flex items-center justify-center rounded-md h-9 w-9 hover:bg-accent lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </SheetTrigger>
@@ -30,7 +27,7 @@ export function AdminHeader() {
             <span>RPMM Admin</span>
           </div>
           <div className="py-4 px-3">
-            <AdminSidebar />
+            <AdminSidebarNav pathname={pathname} />
           </div>
         </SheetContent>
       </Sheet>

@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import {
   Menu,
+  X,
   GraduationCap,
   Phone,
   Mail,
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { NAV_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -48,6 +48,23 @@ export function HeaderClient({
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close drawer on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const socialLinks = [
     { href: facebookUrl, label: "FB" },
@@ -216,98 +233,120 @@ export function HeaderClient({
             >
               <ThemeToggle />
             </div>
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger
-                render={
-                  <button
-                    type="button"
-                    className={cn(
-                      "inline-flex items-center justify-center rounded-md h-9 w-9 cursor-pointer transition-colors hover:bg-white/20",
-                      scrolled ? "text-foreground hover:bg-accent" : "text-white"
-                    )}
-                  />
-                }
-              >
-                <Menu className="h-5 w-5" />
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[280px] p-0">
-                {/* Mobile Menu Header */}
-                <div className="gradient-primary p-6 text-white">
-                  <div className="flex items-center gap-2.5">
-                    <div className="bg-white/15 rounded-xl p-1.5">
-                      <GraduationCap className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-lg">{schoolName}</p>
-                      <p className="text-[10px] tracking-wide uppercase text-white/70">
-                        {tagline}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mobile Nav Items */}
-                <nav className="flex flex-col p-4 gap-1">
-                  {NAV_ITEMS.map((item) => {
-                    const isActive =
-                      item.href === "/"
-                        ? pathname === "/"
-                        : pathname.startsWith(item.href);
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
-                          isActive
-                            ? "bg-primary/10 text-primary"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                        )}
-                      >
-                        {item.label}
-                        {isActive && (
-                          <span className="ml-auto h-1.5 w-1.5 rounded-full gradient-primary" />
-                        )}
-                      </Link>
-                    );
-                  })}
-                </nav>
-
-                {/* Mobile CTA */}
-                <div className="p-4 border-t mt-auto">
-                  <Link href="/contact" onClick={() => setOpen(false)}>
-                    <Button className="w-full gradient-primary text-white rounded-lg gap-2">
-                      Contact Us
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                  {(phone || email) && (
-                    <div className="mt-4 flex flex-col gap-2 text-xs text-muted-foreground">
-                      {phone && (
-                        <a
-                          href={`tel:${phone}`}
-                          className="flex items-center gap-2 hover:text-foreground transition-colors"
-                        >
-                          <Phone className="h-3 w-3" />
-                          {phone}
-                        </a>
-                      )}
-                      {email && (
-                        <a
-                          href={`mailto:${email}`}
-                          className="flex items-center gap-2 hover:text-foreground transition-colors"
-                        >
-                          <Mail className="h-3 w-3" />
-                          {email}
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className={cn(
+                "inline-flex items-center justify-center rounded-md h-9 w-9 cursor-pointer transition-colors hover:bg-white/20",
+                scrolled ? "text-foreground hover:bg-accent" : "text-white"
+              )}
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Drawer */}
+      <div
+        className={cn(
+          "fixed top-0 right-0 z-50 h-full w-[280px] bg-popover shadow-xl transition-transform duration-300 ease-in-out",
+          open ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        {/* Drawer Header */}
+        <div className="gradient-primary p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="bg-white/15 rounded-xl p-1.5">
+                <GraduationCap className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="font-bold text-lg">{schoolName}</p>
+                <p className="text-[10px] tracking-wide uppercase text-white/70">
+                  {tagline}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="text-white/80 hover:text-white transition-colors"
+              aria-label="Close menu"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Nav Items */}
+        <nav className="flex flex-col p-4 gap-1">
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                {item.label}
+                {isActive && (
+                  <span className="ml-auto h-1.5 w-1.5 rounded-full gradient-primary" />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Mobile CTA */}
+        <div className="p-4 border-t">
+          <Link href="/contact" onClick={() => setOpen(false)}>
+            <Button className="w-full gradient-primary text-white rounded-lg gap-2">
+              Contact Us
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+          {(phone || email) && (
+            <div className="mt-4 flex flex-col gap-2 text-xs text-muted-foreground">
+              {phone && (
+                <a
+                  href={`tel:${phone}`}
+                  className="flex items-center gap-2 hover:text-foreground transition-colors"
+                >
+                  <Phone className="h-3 w-3" />
+                  {phone}
+                </a>
+              )}
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-2 hover:text-foreground transition-colors"
+                >
+                  <Mail className="h-3 w-3" />
+                  {email}
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </header>

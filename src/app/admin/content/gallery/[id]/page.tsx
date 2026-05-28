@@ -167,7 +167,7 @@ export default function AlbumDetailPage({ params }: { params: Promise<{ id: stri
             <p className="text-sm text-muted-foreground text-center py-8">No images yet. Upload some above.</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {album.images.map((img) => (
+              {album.images.filter((img) => img.url).map((img) => (
                 <div key={img.id} className="relative group rounded-lg overflow-hidden border aspect-[4/3]">
                   <Image src={img.url} alt={img.caption ?? ""} fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

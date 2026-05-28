@@ -54,7 +54,7 @@ export default async function HomePage() {
       )}
 
       {/* Hero Section */}
-      {heroSlides.length > 0 && (
+      {heroSlides.length > 0 && heroSlides[0].imageUrl && (
         <section className="relative h-[500px] md:h-[600px] overflow-hidden">
           <Image
             src={heroSlides[0].imageUrl}

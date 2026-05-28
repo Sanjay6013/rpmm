@@ -46,7 +46,7 @@ export function ImageUpload({ value, onChange, category = "general" }: ImageUplo
 
   return (
     <div className="space-y-2">
-      {value ? (
+      {value && value.trim() ? (
         <div className="relative w-full h-48 rounded-lg overflow-hidden border">
           <Image src={value} alt="Uploaded image" fill className="object-cover" />
           <button

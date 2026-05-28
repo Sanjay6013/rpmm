@@ -71,7 +71,7 @@ export default async function AboutPage() {
             <h2 className="text-2xl font-bold mb-6 text-center">{about?.principalHeading ?? "Principal's Message"}</h2>
             <div className="gradient-border p-6 md:p-8 bg-card rounded-lg">
               <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                {about.principalPhoto && (
+                {about?.principalPhoto && (
                   <div className="relative w-48 h-48 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-primary/20">
                     <Image
                       src={about.principalPhoto}
